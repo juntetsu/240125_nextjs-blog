@@ -1,8 +1,13 @@
 import Link from "next/link";
+import styles from "../styles/Logo.module.css";
 
-const Logo = () => {
+type LogoProps = {
+  boxOn?: boolean;
+};
+
+const Logo = ({boxOn = false}) => {
   return (
-    <Link href="/">Pan&apos;s Blog</Link>
+    <Link href="/" className={boxOn ? styles.box : styles.basic}>Pan</Link>
   )
 }
 

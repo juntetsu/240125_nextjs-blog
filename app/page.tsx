@@ -1,9 +1,12 @@
+import Container from "@/app/components/Container";
 import Hero from "@/app/components/Hero";
 
 const Home = () => {
   return (
     <>
-      <Hero title="Pan's BLog" subTitle="next-blog" imageOn />
+      <Container>
+        <Hero title="Pan" subTitle="next-blog" imageOn />
+      </Container>
     </>
   );
 };
