@@ -7,11 +7,23 @@ import {
   TwoColumnMain,
   TwoColumnSidebar,
 } from "@/app/components/TwoColumn";
+import Image from "next/image";
+import eyecatch from "@/images/about.jpg";
 
 const About = () => {
   return (
     <Container>
       <Hero title="About" subTitle="About Page" />
+
+      <figure>
+        <Image
+          src={eyecatch}
+          alt=""
+          sizes="(min-width: 1152px) 1152px, 100vw"
+          style={{ width: "100%", height: "auto" }}
+          priority
+        />
+      </figure>
 
       <TwoColumn>
         <TwoColumnMain>
@@ -32,7 +44,7 @@ const About = () => {
             </p>
           </PostBody>
         </TwoColumnMain>
-        
+
         <TwoColumnSidebar>
           <Contact />
         </TwoColumnSidebar>
