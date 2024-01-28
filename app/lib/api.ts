@@ -80,6 +80,7 @@ export const getAllPostsByCategory = async (catID: string, limit = 100) => {
         limit: limit,
       },
     });
+    return posts.contents;
   } catch (error) {
     console.log("~~ getAllPostsByCategory ~~");
     console.log(error);
