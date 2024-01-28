@@ -2,15 +2,28 @@ import { getPostBySlug } from "@/app/lib/api";
 import Container from "@/app/components/Container";
 import PostHeader from "@/app/components/PostHeader";
 import Image from "next/image";
-import { TwoColumn, TwoColumnMain, TwoColumnSidebar } from "@/app/components/TwoColumn";
+import {
+  TwoColumn,
+  TwoColumnMain,
+  TwoColumnSidebar,
+} from "@/app/components/TwoColumn";
 import PostBody from "@/app/components/PostBody";
 import ConvertBody from "@/app/components/ConvertBody";
 import PostCategories from "@/app/components/PostCategories";
+import { eyecatchLocal } from "@/app/lib/constants";
+import { getAllSlugs } from "@/app/lib/api";
+import prevNextPost from "@/app/lib/prevNextPost";
+import Pagination from "@/app/components/Pagination";
 
-const Schedule = async () => {
-  const slug = "schedule";
+const Post = async ({ params }: { params: { slug: string } }) => {
+  const slug = params.slug;
   const post = await getPostBySlug(slug);
-  const { title, publishDate: publish, content, eyecatch, categories } = post;
+  const { title, publishDate: publish, content, categories } = post;
+
+  const eyecatch = post.eyecatch ?? eyecatchLocal;
+
+  const allSlugs = await getAllSlugs();
+  const [prevPost, nextPost] = prevNextPost(allSlugs, slug);
 
   return (
     <Container>
@@ -38,9 +51,24 @@ const Schedule = async () => {
             <PostCategories categories={categories} />
           </TwoColumnSidebar>
         </TwoColumn>
+
+        <Pagination
+          prevText={prevPost.title}
+          prevUrl={`/blog/${prevPost.slug}`}
+          nextText={nextPost.title}
+          nextUrl={`/blog/${nextPost.slug}`}
+        />
       </article>
     </Container>
   );
 };
 
-export default Schedule;
+export async function generateStaticParams() {
+  const allSlugs = await getAllSlugs();
+
+  return allSlugs.map(({ slug }: { slug: string }) => {
+    return { slug: slug };
+  });
+}
+
+export default Post;
